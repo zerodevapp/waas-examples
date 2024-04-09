@@ -9,15 +9,15 @@ import { sepolia } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
 
 export default function Providers({ children }: { children: ReactNode }) {
+  const zdAppId = process.env.NEXT_PUBLIC_ZERODEV_APP_ID || "";
   const config = createConfig({
     chains: [sepolia],
     connectors: [injected()],
     transports: {
-      [sepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL || ""),
+      [sepolia.id]: http(`https://rpc.zerodev.app/api/v2/bundler/${zdAppId}`),
     },
   });
   const queryClient = new QueryClient();
-  const zdAppId = process.env.NEXT_PUBLIC_ZERODEV_APP_ID || "";
 
   return (
     <MantineProvider>
