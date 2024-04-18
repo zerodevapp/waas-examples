@@ -1,6 +1,6 @@
 ## ZeroDev WaaS Examples
 
-[Docs can be found here.](https://docs.zerodev.app/react/use-balance)
+[Docs can be found here.](https://docs.zerodev.app/react/getting-started)
 
 ### Create Account
 
