@@ -8,6 +8,10 @@ import { WagmiProvider, createConfig, http } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
 
+if (!process.env.NEXT_PUBLIC_ZERODEV_APP_ID) {
+  throw new Error("Missing NEXT_PUBLIC_ZERODEV_APP_ID");
+}
+
 export default function Providers({ children }: { children: ReactNode }) {
   const zdAppId = process.env.NEXT_PUBLIC_ZERODEV_APP_ID || "";
   const config = createConfig({
