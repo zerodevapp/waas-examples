@@ -1,8 +1,13 @@
 import { Button, Title,  Flex, TextInput } from "@mantine/core";
 import {useConnect} from "wagmi";
-import {useCreateKernelClientEOA, useKernelClient, useDisconnectKernelClient} from "@zerodev/waas";
-import { useCreateKernelClientPasskey } from "@zerodev/waas";
-import { useEffect, useState } from "react";
+import {
+  useKernelClient, 
+  useDisconnectKernelClient,
+  useCreateKernelClientEOA, 
+  useCreateKernelClientSocial,
+  useCreateKernelClientPasskey
+} from "@zerodev/waas";
+import { useState } from "react";
 
 function EOASigner() {
   const { connectors } = useConnect();
@@ -19,9 +24,7 @@ function EOASigner() {
           <div key={connector.uid} className="w-full">
             <Button
               disabled={isPending}
-              onClick={() => {
-                connect({ connector });
-              }}
+              onClick={() =>  connect({ connector })}
               fullWidth
               variant="outline"
               style={{ justifyContent: "center" }}
@@ -49,18 +52,9 @@ function EOASigner() {
 
 function PasskeySigner() {
   const [username, setUsername] = useState("");
-  const [isLoginLoading, setIsLoginLoading] = useState(false);
-  const [isRegisterLoading, setIsRegisterLoading] = useState(false);
-  const { connectRegister, connectLogin, error } = useCreateKernelClientPasskey(
+  const { connectRegister, connectLogin, isPending } = useCreateKernelClientPasskey(
     { version: "v3" }
   );
-
-  useEffect(() => {
-    if (error) {
-      setIsLoginLoading(false);
-      setIsRegisterLoading(false);
-    }
-  }, [error]);
 
   return (
     <Flex justify="between" align="start" className="w-4/5">
@@ -80,12 +74,9 @@ function PasskeySigner() {
         <Button
           variant="outline"
           style={{ padding: "3px" }}
-          loading={isRegisterLoading}
-          disabled={isRegisterLoading || isLoginLoading || !username}
-          onClick={() => {
-            setIsRegisterLoading(true);
-            connectRegister({ username });
-          }}
+          loading={isPending}
+          disabled={isPending || !username}
+          onClick={() =>  connectRegister({ username })}
         >
           Register
         </Button>
@@ -101,12 +92,9 @@ function PasskeySigner() {
           className="mt-5"
           variant="outline"
           style={{ padding: "3px" }}
-          loading={isLoginLoading}
-          disabled={isRegisterLoading || isLoginLoading}
-          onClick={() => {
-            setIsLoginLoading(true);
-            connectLogin();
-          }}
+          loading={isPending}
+          disabled={isPending}
+          onClick={() => connectLogin()}
         >
           Login
         </Button>
@@ -119,6 +107,9 @@ export default function ConnectBlock() {
   const [signerOption, setSignerOption] = useState("");
   const { isConnected } = useKernelClient();
   const { disconnect } = useDisconnectKernelClient();
+  const { login, isPending } = useCreateKernelClientSocial(
+    { version: "v3" }
+  );
 
   return (
     <>
@@ -130,6 +121,7 @@ export default function ConnectBlock() {
             <Flex flex={1} justify="between" align="center" className="space-x-4">
               <Button onClick={() => setSignerOption("eoa")}>EOA</Button>
               <Button onClick={() => setSignerOption("passkey")}>Passkey</Button>
+              <Button loading={isPending} onClick={() => login("google")}>Social</Button>
             </Flex> 
           ) : (
             <Flex direction="column" justify="between" align="center" className="space-y-4 w-full">
