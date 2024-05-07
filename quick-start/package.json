@@ -9,13 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.34.2",
-    "@zerodev/waas": "^0.1.8",
+    "@zerodev/waas": "^0.1.10",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "viem": "2.x",
-    "wagmi": "^2.8.1"
+    "viem": "2.x"
   },
   "devDependencies": {
     "typescript": "^5",

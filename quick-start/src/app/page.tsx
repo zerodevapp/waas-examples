@@ -1,19 +1,17 @@
 "use client";
 import { parseAbi } from "viem";
-import { useConnect } from "wagmi";
 import { 
-  useCreateKernelClientEOA, 
   useKernelClient, 
   useDisconnectKernelClient, 
-  useSendUserOperation
+  useSendUserOperation,
+  useCreateKernelClientPasskey
 } from "@zerodev/waas";
 
 export default function App() {
-  const { connectors } = useConnect();
-  const { connect, isPending } = useCreateKernelClientEOA({ version: "v3" });
+  const { connectRegister, isPending } = useCreateKernelClientPasskey({ version: "v3" });
   const { address, isConnected } = useKernelClient();
   const { disconnect } = useDisconnectKernelClient();
-  const { data, write, isPending: isUserOpPending, error } = useSendUserOperation({
+  const { data, write, isPending: isUserOpPending } = useSendUserOperation({
     paymaster: {
       type: "SPONSOR"
     }
@@ -28,7 +26,7 @@ export default function App() {
           className="px-4 py-2 bg-blue-500 text-white rounded-lg"
           disabled={isPending}
           onClick={() => {
-            connect({ connector: connectors[0] });
+            connectRegister({ username: "zerodev_quickstart" })
           }}
         >
           {isPending ? 'Connecting...' : 'Create Smart Account'}
