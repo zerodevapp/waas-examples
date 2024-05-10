@@ -12,7 +12,7 @@ bun install
 cp .env.example .env.local
 ```
 
-Fill in `NEXT_PUBLIC_ZERODEV_APP_ID`
+Fill in `NEXT_PUBLIC_ZERODEV_SEPOLIA_APP_ID` & `NEXT_PUBLIC_ZERODEV_ARB_APP_ID`
 
 ### Run
 

@@ -1,6 +1,6 @@
 import { Flex } from "@mantine/core";
 import { useKernelClient } from "@zerodev/waas";
-import { ConnectButton, PaymasterButton } from "./Button";
+import { ConnectButton, PaymasterButton, SelectChainButton } from "./Button";
 
 export default function Navbar() {
   const { isConnected } = useKernelClient();
@@ -18,6 +18,7 @@ export default function Navbar() {
         {isConnected && (
           <>
             <PaymasterButton />
+            <SelectChainButton />
             <ConnectButton version="v3" />
           </>
         )}
